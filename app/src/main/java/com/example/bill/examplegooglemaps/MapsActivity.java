@@ -62,6 +62,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mMap.addMarker(markerOptions);
 
         float zoomLevel=15;
+        //zoom in the cam
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng,zoomLevel));
         //mMap.setOnMarkerClickListener(this);
     }
