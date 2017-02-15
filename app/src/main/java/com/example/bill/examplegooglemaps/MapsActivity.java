@@ -43,27 +43,35 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
+        //Type of maps
         mMap.setMapType(googleMap.MAP_TYPE_NORMAL);
+
+        //for Componentes of maps
         UiSettings uiSettings= mMap.getUiSettings();
         uiSettings.setZoomControlsEnabled(true);
         uiSettings.setCompassEnabled(true);
         uiSettings.setMapToolbarEnabled(true);
         uiSettings.setMyLocationButtonEnabled(true);
 
-
+        //Length and latitude
         LatLng latLng = new LatLng(-12.059477, -77.041509);
+
+        //draggable is true
+        //rotation is marker
         MarkerOptions markerOptions=new MarkerOptions()
                 .position(latLng)
                 .title("Alfonso Ugarte")
                 .snippet("av. Brasil 1750")
                 .icon(BitmapDescriptorFactory.fromResource(R.drawable.marker_blue))
                 .draggable(true)
-                .rotation(180);
+                .rotation(270);
         mMap.addMarker(markerOptions);
 
         float zoomLevel=15;
         //zoom in the cam
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng,zoomLevel));
+
+        //events
         //mMap.setOnMarkerClickListener(this);
     }
 }
