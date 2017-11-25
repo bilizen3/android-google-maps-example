@@ -2,6 +2,7 @@ package com.example.bill.examplegooglemaps;
 
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
+import android.widget.Toast;
 
 import com.google.android.gms.auth.GooglePlayServicesAvailabilityException;
 import com.google.android.gms.common.GooglePlayServicesUtil;
@@ -15,6 +16,8 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+
+import java.util.WeakHashMap;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
 
@@ -30,21 +33,14 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mapFragment.getMapAsync(this);
     }
 
-
-    /**
-     * Manipulates the map once available.
-     * This callback is triggered when the map is ready to be used.
-     * This is where we can add markers or lines, add listeners or move the camera. In this case,
-     * we just add a marker near Sydney, Australia.
-     * If Google Play services is not installed on the device, the user will be prompted to install
-     * it inside the SupportMapFragment. This method will only be triggered once the user has
-     * installed Google Play services and returned to the app.
-     */
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
         //Type of maps
         mMap.setMapType(googleMap.MAP_TYPE_NORMAL);
+
+        final WeakHashMap wMarker= new WeakHashMap<Marker,String>();
+
 
         //for Componentes of maps
         UiSettings uiSettings= mMap.getUiSettings();
@@ -65,13 +61,32 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 .icon(BitmapDescriptorFactory.fromResource(R.drawable.marker_blue))
                 .draggable(true)
                 .rotation(270);
-        mMap.addMarker(markerOptions);
+        Marker principal=mMap.addMarker(markerOptions);
 
-        float zoomLevel=15;
+
+        //marcadore 2
+        Marker marker2=mMap.addMarker(new MarkerOptions().
+                        position(new LatLng(-12.059480, -77.041513))
+                        .title("nuevo marcador")
+                        .snippet("subtitulo para las pruebas"));
+        marker2.showInfoWindow();
+
+        //marcadore 3
+        Marker marker3 = mMap.addMarker(new MarkerOptions()
+                .position(new LatLng(-12.059370, -77.041404))
+                .flat(true));
+
+        float zoomLevel=18;
         //zoom in the cam
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng,zoomLevel));
 
-        //events
-        //mMap.setOnMarkerClickListener(this);
+        //events onclick
+        mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
+            @Override
+            public boolean onMarkerClick(Marker marker) {
+                Toast.makeText(MapsActivity.this, marker.getTitle(), Toast.LENGTH_SHORT).show();
+                return false;
+            }
+        });
     }
 }
